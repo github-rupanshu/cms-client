@@ -1,9 +1,9 @@
 
-import {SignIn} from './screens'
+import {SignIn,SignUp} from './screens'
 function App() {
   return (
     <div >
-      <SignIn />
+      <SignUp />
     </div>
   );
 }

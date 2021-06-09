@@ -1,7 +1,4 @@
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
 
-
-import SignIn from './SignIn';
-
-
-
-export {SignIn};
+export { SignIn,SignUp };

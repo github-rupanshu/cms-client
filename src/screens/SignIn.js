@@ -1,27 +1,27 @@
-import React,{useState,useEffect} from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import axios from "axios";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
+      {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/">
         Your Website
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
@@ -29,16 +29,16 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -46,41 +46,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default  function SignIn() {
+export default function SignIn() {
   const classes = useStyles();
-  const[phone,setPhone]=useState('');
-  const [password, setpassword] = useState('');
+  const [phone, setPhone] = useState("");
+  const [password, setpassword] = useState("");
 
-  const handlePhoneChange=(e)=>{
-      e.preventDefault();
-      if(e.target.value.toString().length>10){
-          return;
-      }
-      setPhone(e.target.value);
-      
-  }
-  const handlePasswordChange=(e)=>{
+  const handlePhoneChange = (e) => {
+    e.preventDefault();
+    if (e.target.value.toString().length > 10) {
+      return;
+    }
+    setPhone(e.target.value);
+  };
+  const handlePasswordChange = (e) => {
     e.preventDefault();
     setpassword(e.target.value);
-    
-}
-const handleSubmit=async(e)=>{
+  };
+  const handleSubmit =  async (e) => {
     e.preventDefault();
-    await axios({
-        method: 'post',
-        url: 'localhost:8000/api/v1/user/login',
-        data: {
-          phone,
-          password
-        }
-      }).then(res => {
-        console.log(res);
-        console.log(res.data);
-      });
-}
+    console.log("submit button");
+     const res=await axios({
+      method: "post",
+      url: "http://localhost:8000/api/v1/user/logIn",
+      data: {
+        phone,
+        password,
+      },
+    });
+    console.log(res);
+    
+  };
 
   return (
-    
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -90,9 +87,9 @@ const handleSubmit=async(e)=>{
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
-          value={phone}
+            value={phone}
             variant="outlined"
             margin="normal"
             required
@@ -128,7 +125,7 @@ const handleSubmit=async(e)=>{
             variant="contained"
             color="primary"
             className={classes.submit}
-            onSubmit={handleSubmit}
+            
           >
             Sign In
           </Button>
