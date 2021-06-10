@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
@@ -12,6 +10,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import axios from 'axios';
 
 function Copyright() {
   return (
@@ -54,14 +53,51 @@ export default function SignUp() {
   const [dob, setdob] = useState("");
   const [password, setpassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState({
-      password:"",
-      match:false
+    password: "",
+    text: "",
   });
 
-  const handleConfirmPasswordChange=()=>{
-      
-  }
+  const handleNameChange = (e) => {
+    setname(e.target.value);
+  };
+  const handlePhoneChange = (e) => {
+    setphone(e.target.value);
+  };
 
+  const handleDOBChange = (e) => {
+    e.preventDefault();
+    setdob(e.target.value);
+  };
+  const handlePasswordChange = (e) => {
+    e.preventDefault();
+    setpassword(e.target.value);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    e.preventDefault();
+    setconfirmPassword({ ...confirmPassword, password: e.target.value });
+  };
+  useEffect(() => {
+    if (confirmPassword.password !== password) {
+      setconfirmPassword({ ...confirmPassword, text: "password dont match" });
+    } else {
+      setconfirmPassword({ ...confirmPassword, text: "" });
+    }
+  }, [confirmPassword.password, password ]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res=await axios({
+      method: "post",
+      url: "http://localhost:8000/api/v1/user/logIn",
+      data: {
+        phone,
+        password,
+      },
+    });
+    console.log(res);
+
+  };
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -72,7 +108,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -85,6 +121,7 @@ export default function SignUp() {
                 id="Name"
                 label="Name"
                 autoFocus
+                onChange={handleNameChange}
               />
             </Grid>
 
@@ -99,21 +136,24 @@ export default function SignUp() {
                 name="phone"
                 autoComplete="phone"
                 type="number"
+                onChange={handlePhoneChange}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 value={dob}
                 id="date"
-                label="Birthday"
+                label="Birth Date"
                 type="date"
-                defaultValue="2000-01-01"
+                required
+                //defaultValue="2000-01-01"
                 className={classes.textField}
                 fullWidth
                 variant="outlined"
                 InputLabelProps={{
                   shrink: true,
                 }}
+                onChange={handleDOBChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -127,6 +167,7 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={handlePasswordChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -139,11 +180,10 @@ export default function SignUp() {
                 label="Confirm Password"
                 type="password"
                 id="confirmPassword"
+                helperText={confirmPassword.text}
                 onChange={handleConfirmPasswordChange}
-                
               />
             </Grid>
-
           </Grid>
           <Button
             type="submit"
