@@ -1,10 +1,10 @@
 
-import {SignIn,SignUp} from './screens'
-import {AppBar} from './components/index'
+import {SignIn,SignUp,Layout} from './components'
+
 function App() {
   return (
     <div >
-      <AppBar />
+      <Layout />
     </div>
   );
 }
