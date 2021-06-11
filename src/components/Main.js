@@ -1,6 +1,7 @@
 import React from "react";
 
-import Appointment from "./Appointment";
+import Appointment from "./appointment/Appointment";
+import Checkout from "./appointment/Checkout";
 
 
 
@@ -11,7 +12,7 @@ function Main() {
     <div>
       <main >
         
-       <Appointment />
+       <Checkout />
 
       </main>
     </div>

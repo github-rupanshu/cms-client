@@ -42,7 +42,6 @@ export default function Appointment() {
       </Grid>
       <Grid>
       <DataTable />
-
       </Grid>
      
     </div>
